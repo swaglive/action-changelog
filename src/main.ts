@@ -53,11 +53,16 @@ export async function run(): Promise<void> {
   ) as any[]
 
   // Slice the start
-  changelog = changelog.slice(
-    changelog.findIndex(
-      versionFilter({ versionText, versionMarkerType, versionMarkerDepth })
-    )
+  const versionStartIndex: number = changelog.findIndex(
+    versionFilter({ versionText, versionMarkerType, versionMarkerDepth })
   )
+  changelog = changelog.slice(versionStartIndex)
+
+  if (versionStartIndex === -1) {
+    return core.setFailed(
+      `Could not find version ${versionText} in changelog`,
+    )
+  }
 
   // Slice the end
   const versionEndIndex: number = changelog

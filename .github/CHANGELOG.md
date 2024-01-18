@@ -92,7 +92,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Start using "changelog" over "change log" since it's the common usage.
+- Start using "changelog" over "changelog" since it's the common usage.
 - Start versioning based on the current English version at 0.3.0 to help
   translation authors keep things up-to-date.
 - Rewrite "What makes unicorns cry?" section.
@@ -133,7 +133,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Answer "Should you ever rewrite a change log?".
+- Answer "Should you ever rewrite a changelog?".
 
 ### Changed
 
@@ -161,7 +161,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Clarified the section on "Is there a standard change log format?".
+- Clarified the section on "Is there a standard changelog format?".
 
 ### Fixed
 
@@ -186,11 +186,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Better explanation of the difference between the file ("CHANGELOG")
-  and its function "the change log".
+  and its function "the changelog".
 
 ### Changed
 
-- Refer to a "change log" instead of a "CHANGELOG" throughout the site
+- Refer to a "changelog" instead of a "CHANGELOG" throughout the site
   to differentiate between the file and the purpose of the file — the
   logging of changes.
 

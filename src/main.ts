@@ -44,8 +44,11 @@ export async function run(): Promise<void> {
   const versionMarkerDepth: number =
     Number(core.getInput('version-marker-depth')) || 2
   let changelog = marked.lexer(
-    core.getInput('body') ||
-      (await fs.readFile(core.getInput('bodyfile') || 'CHANGELOG.md', 'utf8'))
+    core.getInput('changelog') ||
+      (await fs.readFile(
+        core.getInput('changelog-file') || 'CHANGELOG.md',
+        'utf8'
+      ))
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   ) as any[]
 

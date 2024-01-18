@@ -2773,8 +2773,8 @@ async function run() {
     const versionText = core.getInput('version', { required: true });
     const versionMarkerType = core.getInput('version-marker-type') || 'heading';
     const versionMarkerDepth = Number(core.getInput('version-marker-depth')) || 2;
-    let changelog = marked_1.marked.lexer(core.getInput('body') ||
-        (await fs_1.promises.readFile(core.getInput('bodyfile') || 'CHANGELOG.md', 'utf8'))
+    let changelog = marked_1.marked.lexer(core.getInput('changelog') ||
+        (await fs_1.promises.readFile(core.getInput('changelog-file') || 'CHANGELOG.md', 'utf8'))
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     );
     // Slice the start

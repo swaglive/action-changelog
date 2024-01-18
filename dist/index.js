@@ -2765,7 +2765,7 @@ function versionFilter({ versionText, versionMarkerType, versionMarkerDepth }) {
         depth === versionMarkerDepth,
         [
             versionText && text?.startsWith(versionText),
-            tokens?.[0].type == 'link' && tokens?.[0]?.text.startsWith(versionText)
+            tokens?.[0].type === 'link' && tokens?.[0]?.text.startsWith(versionText)
         ].some(Boolean)
     ].every(Boolean);
 }

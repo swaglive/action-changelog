@@ -66,4 +66,8 @@ export async function run(): Promise<void> {
   )
 
   core.setOutput('body', changelog.map(({ raw }) => raw).join(''))
+
+  core.group('Output', async () =>
+    core.info(changelog.map(({ raw }) => raw).join(''))
+  )
 }

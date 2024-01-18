@@ -51,11 +51,17 @@ jobs:
         id: checkout
         uses: actions/checkout@v4
 
-      # - name: Test Local Action
-      #   id: test-action
-      #   uses: ./
-      #   with:
-      #     milliseconds: 2000
+      - name: Test Local Action
+        id: test-action
+        uses: ./
+        with:
+          version: "0.0.1"
+
+      - name: Test Local Action
+        id: test-action
+        uses: ./
+        with:
+          version: "1.0.0"
 
       - name: Print Output
         id: output

@@ -24763,6 +24763,7 @@ async function run() {
         .findIndex(versionFilter({ versionText: '', versionMarkerType, versionMarkerDepth }));
     changelog = changelog.slice(0, versionEndIndex === -1 ? -1 : versionEndIndex + 1);
     core.setOutput('body', changelog.map(({ raw }) => raw).join(''));
+    core.group('Output', async () => core.info(changelog.map(({ raw }) => raw).join('')));
 }
 exports.run = run;
 

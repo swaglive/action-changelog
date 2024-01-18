@@ -16,7 +16,8 @@ inputs:
     required: false
     default: 2
   changelog:
-    description: The changelog body. If not provided, the `changelog-file` will be used
+    description: The changelog body. 
+      If not provided, the `changelog-file` will be used
     required: false
   changelog-file:
     description: The changelog file

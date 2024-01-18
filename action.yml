@@ -1,24 +1,30 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
-
-# Add your action's branding here. This will appear on the GitHub Marketplace.
+name: Extract Changelog
+description: Extracts a version from the changelog
 branding:
-  icon: 'heart'
-  color: 'red'
-
-# Define your inputs here.
+  icon: book-open
+  color: white
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  version:
+    description: The version to extract
     required: true
-    default: '1000'
-
-# Define your outputs here.
+  version-marker-type:
+    description: The markdown element to look for versions
+    required: false
+    default: heading
+  version-marker-depth:
+    description: The depth of the markdown element to look for versions
+    required: false
+    default: 2
+  changelog:
+    description: The changelog body. If not provided, the `changelog-file` will be used
+    required: false
+  changelog-file:
+    description: The changelog file
+    required: false
+    default: CHANGELOG.md
 outputs:
-  time:
-    description: 'Your output description here'
-
+  body:
+    description: Extracted changelog body for the specified version
 runs:
   using: node20
   main: dist/index.js

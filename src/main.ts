@@ -1,26 +1,69 @@
+import { promises as fs } from 'fs'
 import * as core from '@actions/core'
-import { wait } from './wait'
+import { marked } from 'marked'
 
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
  */
+function versionFilter({
+  versionText,
+  versionMarkerType,
+  versionMarkerDepth
+}: {
+  versionText: string
+  versionMarkerType: string
+  versionMarkerDepth: number
+}) {
+  return ({
+    type,
+    depth,
+    text,
+    tokens
+  }: {
+    type: string
+    depth: number
+    text?: string
+    tokens: any[]
+  }) =>
+    [
+      type === versionMarkerType,
+      depth === versionMarkerDepth,
+      [
+        versionText && text?.startsWith(versionText),
+        tokens?.[0].type == 'link' && tokens?.[0]?.text.startsWith(versionText)
+      ].some(Boolean)
+    ].every(Boolean)
+}
+
 export async function run(): Promise<void> {
-  try {
-    const ms: string = core.getInput('milliseconds')
+  const versionText: string = core.getInput('version', { required: true })
+  const versionMarkerType: string =
+    core.getInput('version-marker-type') || 'heading'
+  const versionMarkerDepth: number =
+    Number(core.getInput('version-marker-depth')) || 2
+  let changelog = marked.lexer(
+    core.getInput('body') ||
+      (await fs.readFile(core.getInput('bodyfile') || 'CHANGELOG.md', 'utf8'))
+  ) as any[]
 
-    // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-    core.debug(`Waiting ${ms} milliseconds ...`)
+  // Slice the start
+  changelog = changelog.slice(
+    changelog.findIndex(
+      versionFilter({ versionText, versionMarkerType, versionMarkerDepth })
+    )
+  )
 
-    // Log the current timestamp, wait, then log the new timestamp
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+  // Slice the end
+  const versionEndIndex: number = changelog
+    .slice(1)
+    .findIndex(
+      versionFilter({ versionText: '', versionMarkerType, versionMarkerDepth })
+    )
+  changelog = changelog.slice(
+    0,
+    versionEndIndex === -1 ? -1 : versionEndIndex + 1
+  )
 
-    // Set outputs for other workflow steps to use
-    core.setOutput('time', new Date().toTimeString())
-  } catch (error) {
-    // Fail the workflow run if an error occurs
-    if (error instanceof Error) core.setFailed(error.message)
-  }
+  core.setOutput('body', changelog.map(({ raw }) => raw).join(''))
 }

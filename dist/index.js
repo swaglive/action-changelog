@@ -2774,7 +2774,9 @@ async function run() {
     const versionMarkerType = core.getInput('version-marker-type') || 'heading';
     const versionMarkerDepth = Number(core.getInput('version-marker-depth')) || 2;
     let changelog = marked_1.marked.lexer(core.getInput('body') ||
-        (await fs_1.promises.readFile(core.getInput('bodyfile') || 'CHANGELOG.md', 'utf8')));
+        (await fs_1.promises.readFile(core.getInput('bodyfile') || 'CHANGELOG.md', 'utf8'))
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+    );
     // Slice the start
     changelog = changelog.slice(changelog.findIndex(versionFilter({ versionText, versionMarkerType, versionMarkerDepth })));
     // Slice the end

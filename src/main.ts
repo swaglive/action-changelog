@@ -24,6 +24,7 @@ function versionFilter({
     type: string
     depth: number
     text?: string
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     tokens: any[]
   }) =>
     [
@@ -45,6 +46,7 @@ export async function run(): Promise<void> {
   let changelog = marked.lexer(
     core.getInput('body') ||
       (await fs.readFile(core.getInput('bodyfile') || 'CHANGELOG.md', 'utf8'))
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   ) as any[]
 
   // Slice the start

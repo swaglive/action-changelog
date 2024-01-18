@@ -55,8 +55,10 @@ jobs:
         uses: ./
         with:
           version: "0.0.1"
+          changelog-file: .github/CHANGELOG.md
 
       - name: Test Local Action
         uses: ./
         with:
           version: "1.0.0"
+          changelog-file: .github/CHANGELOG.md

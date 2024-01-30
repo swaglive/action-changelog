@@ -44,6 +44,8 @@ export async function run(): Promise<void> {
     core.getInput('version-marker-type') || 'heading'
   const versionMarkerDepth: number =
     Number(core.getInput('version-marker-depth')) || 2
+  const includeHeader: boolean = core.getBooleanInput('include-header')
+
   let changelog = marked.lexer(
     core.getInput('changelog') ||
       (await fs.readFile(
@@ -73,6 +75,9 @@ export async function run(): Promise<void> {
     0,
     versionEndIndex === -1 ? -1 : versionEndIndex + 1
   )
+
+  // Remove the version marker
+  if (!includeHeader) changelog = changelog.slice(1)
 
   core.setOutput('body', changelog.map(({ raw }) => raw).join(''))
 

@@ -2774,6 +2774,7 @@ async function run() {
     const versionText = core.getInput('version', { required: true });
     const versionMarkerType = core.getInput('version-marker-type') || 'heading';
     const versionMarkerDepth = Number(core.getInput('version-marker-depth')) || 2;
+    const includeHeader = core.getBooleanInput('include-header');
     let changelog = marked_1.marked.lexer(core.getInput('changelog') ||
         (await fs_1.promises.readFile(core.getInput('changelog-file') || 'CHANGELOG.md', 'utf8'))
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
@@ -2789,6 +2790,9 @@ async function run() {
         .slice(1)
         .findIndex(versionFilter({ versionText: '', versionMarkerType, versionMarkerDepth }));
     changelog = changelog.slice(0, versionEndIndex === -1 ? -1 : versionEndIndex + 1);
+    // Remove the version marker
+    if (!includeHeader)
+        changelog = changelog.slice(1);
     core.setOutput('body', changelog.map(({ raw }) => raw).join(''));
     core.group('Output', async () => core.info(changelog.map(({ raw }) => raw).join('')));
 }

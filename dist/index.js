@@ -2764,8 +2764,9 @@ function versionFilter({ versionText, versionMarkerType, versionMarkerDepth }) {
         type === versionMarkerType,
         depth === versionMarkerDepth,
         [
-            versionText && text?.startsWith(versionText),
-            tokens?.[0].type === 'link' && tokens?.[0]?.text.startsWith(versionText)
+            text?.startsWith(versionText || ''),
+            tokens?.[0].type === 'link' &&
+                tokens?.[0]?.text.startsWith(versionText || '')
         ].some(Boolean)
     ].every(Boolean);
 }
@@ -2778,7 +2779,11 @@ async function run() {
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     );
     // Slice the start
-    changelog = changelog.slice(changelog.findIndex(versionFilter({ versionText, versionMarkerType, versionMarkerDepth })));
+    const versionStartIndex = changelog.findIndex(versionFilter({ versionText, versionMarkerType, versionMarkerDepth }));
+    changelog = changelog.slice(versionStartIndex);
+    if (versionStartIndex === -1) {
+        return core.setFailed(`Could not find version ${versionText} in changelog`);
+    }
     // Slice the end
     const versionEndIndex = changelog
         .slice(1)

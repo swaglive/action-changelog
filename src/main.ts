@@ -32,7 +32,8 @@ function versionFilter({
       depth === versionMarkerDepth,
       [
         text?.startsWith(versionText || ''),
-        tokens?.[0].type === 'link' && tokens?.[0]?.text.startsWith(versionText || '')
+        tokens?.[0].type === 'link' &&
+          tokens?.[0]?.text.startsWith(versionText || '')
       ].some(Boolean)
     ].every(Boolean)
 }
@@ -59,9 +60,7 @@ export async function run(): Promise<void> {
   changelog = changelog.slice(versionStartIndex)
 
   if (versionStartIndex === -1) {
-    return core.setFailed(
-      `Could not find version ${versionText} in changelog`,
-    )
+    return core.setFailed(`Could not find version ${versionText} in changelog`)
   }
 
   // Slice the end

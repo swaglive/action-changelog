@@ -2775,10 +2775,10 @@ async function run() {
     const versionMarkerType = core.getInput('version-marker-type') || 'heading';
     const versionMarkerDepth = Number(core.getInput('version-marker-depth')) || 2;
     const includeHeader = core.getBooleanInput('include-header');
-    let changelog = marked_1.marked.lexer(core.getInput('changelog') ||
-        (await fs_1.promises.readFile(core.getInput('changelog-file') || 'CHANGELOG.md', 'utf8'))
+    let changelogBody = core.getInput('changelog') ||
+        (await fs_1.promises.readFile(core.getInput('changelog-file') || 'CHANGELOG.md', 'utf8'));
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-    );
+    let changelog = marked_1.marked.lexer(changelogBody);
     // Slice the start
     const versionStartIndex = changelog.findIndex(versionFilter({ versionText, versionMarkerType, versionMarkerDepth }));
     changelog = changelog.slice(versionStartIndex);

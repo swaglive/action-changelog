@@ -46,12 +46,22 @@ export async function run(): Promise<void> {
     Number(core.getInput('version-marker-depth')) || 2
   const includeHeader: boolean = core.getBooleanInput('include-header')
 
-  let changelogBody: string =
-    core.getInput('changelog') ||
-    (await fs.readFile(
-      core.getInput('changelog-file') || 'CHANGELOG.md',
-      'utf8'
-    ))
+  let changelogBody: string
+
+  try {
+    changelogBody =
+      core.getInput('changelog') ||
+      (await fs.readFile(
+        core.getInput('changelog-file') || 'CHANGELOG.md',
+        'utf8'
+      ))
+  } catch (err) {
+    if (err.code === 'ENOENT' && core.getBooleanInput('ignore-missing')) {
+      changelogBody = ''
+    } else {
+      throw err
+    }
+  }
 
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   let changelog = marked.lexer(changelogBody) as any[]

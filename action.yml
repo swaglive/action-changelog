@@ -27,6 +27,10 @@ inputs:
     description: Whether to include the header in the output
     required: false
     default: false
+  ignore-missing:
+    description: Ignore missing `changelog-file` file
+    required: false
+    default: false
 outputs:
   body:
     description: Extracted changelog body for the specified version

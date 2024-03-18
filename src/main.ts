@@ -71,6 +71,7 @@ export async function run(): Promise<void> {
     .findIndex(
       versionFilter({ versionText: '', versionMarkerType, versionMarkerDepth })
     )
+
   changelog = changelog.slice(
     0,
     versionEndIndex === -1 ? -1 : versionEndIndex + 1

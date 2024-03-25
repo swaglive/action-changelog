@@ -24761,7 +24761,7 @@ async function run() {
                 (await fs_1.promises.readFile(core.getInput('changelog-file') || 'CHANGELOG.md', 'utf8'));
     }
     catch (err) {
-        if (err.code === 'ENOENT' && core.getBooleanInput('ignore-missing')) {
+        if (err.code === 'ENOENT') {
             changelogBody = '';
         }
         else {
@@ -24773,7 +24773,7 @@ async function run() {
     // Slice the start
     const versionStartIndex = changelog.findIndex(versionFilter({ versionText, versionMarkerType, versionMarkerDepth }));
     changelog = changelog.slice(versionStartIndex);
-    if (versionStartIndex === -1) {
+    if (versionStartIndex === -1 && !core.getBooleanInput('ignore-missing')) {
         return core.setFailed(`Could not find version ${versionText} in changelog`);
     }
     // Slice the end

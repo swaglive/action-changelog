@@ -56,7 +56,7 @@ export async function run(): Promise<void> {
         'utf8'
       ))
   } catch (err) {
-    if (err.code === 'ENOENT' && core.getBooleanInput('ignore-missing')) {
+    if (err.code === 'ENOENT') {
       changelogBody = ''
     } else {
       throw err
@@ -72,7 +72,7 @@ export async function run(): Promise<void> {
   )
   changelog = changelog.slice(versionStartIndex)
 
-  if (versionStartIndex === -1) {
+  if (versionStartIndex === -1 && !core.getBooleanInput('ignore-missing')) {
     return core.setFailed(`Could not find version ${versionText} in changelog`)
   }
 
